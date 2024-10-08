@@ -12,14 +12,58 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/sortedByElo", async (req, res) => {
+router.get("/active/sortedByOverallElo", async (req, res) => {
   try {
-    // Fetch all fighters and sort them by eloRating in descending order
-    const fighters = await Fighter.find().sort({ eloRating: -1 });
+    const fighters = await Fighter.find({ status: "Active" }).sort({
+      eloRating: -1,
+    });
     res.status(200).json(fighters);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error fetching fighters" });
+    res.status(500).json({ message: "Error fetching active fighters" });
+  }
+});
+
+router.get("/inactive/sortedByOverallElo", async (req, res) => {
+  try {
+    const fighters = await Fighter.find({ status: "Inactive" }).sort({
+      eloRating: -1,
+    });
+    res.status(200).json(fighters);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching inactive fighters" });
+  }
+});
+
+router.get("/all/sortedByOverallElo", async (req, res) => {
+  try {
+    const fighters = await Fighter.find({}).sort({ eloRating: -1 });
+    res.status(200).json(fighters);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching all fighters" });
+  }
+});
+
+// Sort all active fighters by the sum of their last 5 matches' ELO ratings
+router.get("/active/sortedByEloPerMatch", async (req, res) => {
+  try {
+    const fighters = await Fighter.find({ status: "Active" });
+
+    const fightersWithEloSum = fighters.map((fighter) => {
+      const lastFiveEloPerMatch = fighter.eloPerMatch.slice(-5); // Get the last 5 matches
+      const eloSum = lastFiveEloPerMatch.reduce((acc, elo) => acc + elo, 0); // Sum the ELOs
+      return { ...fighter.toObject(), eloSum }; // Return fighter data along with the sum
+    });
+
+    // Sort fighters based on eloSum in descending order
+    fightersWithEloSum.sort((a, b) => b.eloSum - a.eloSum);
+
+    res.json(fightersWithEloSum);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to fetch fighters" });
   }
 });
 
@@ -56,7 +100,7 @@ const generateUniqueFighterId = async () => {
 
 // Usage in your route
 router.post("/", async (req, res) => {
-  const { name, age, flag, record, profileImage, biography } = req.body;
+  const { name, age, flag, record, profileImage, biography, status } = req.body;
   const fighterId = await generateUniqueFighterId(); // Generate a unique fighter_id
   const newFighter = new Fighter({
     name,
@@ -66,6 +110,7 @@ router.post("/", async (req, res) => {
     fighter_id: fighterId,
     profileImage,
     biography,
+    status,
   });
   try {
     const fighter = await Fighter.findOne({ name });
@@ -81,11 +126,11 @@ router.post("/", async (req, res) => {
 
 // Update an existing fighter
 router.put("/:fighterId", async (req, res) => {
-  const { name, age, flag, record, profileImage, biography } = req.body;
+  const { name, age, flag, record, profileImage, biography, status } = req.body;
   try {
     const fighter = await Fighter.findByIdAndUpdate(
       req.params.fighterId,
-      { name, age, flag, record, profileImage, biography },
+      { name, age, flag, record, profileImage, biography, status },
       { new: true, runValidators: true } // Return the updated document and validate it
     );
 

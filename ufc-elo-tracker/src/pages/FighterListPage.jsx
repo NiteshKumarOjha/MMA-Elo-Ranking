@@ -86,6 +86,7 @@ const FightersPage = () => {
                     <p className="text-gray-400">
                       UFC Record: {fighter.record}
                     </p>
+                    <p className="text-gray-400">Status: {fighter.status}</p>
                   </div>
                 ))}
               </div>

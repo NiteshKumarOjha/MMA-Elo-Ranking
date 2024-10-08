@@ -129,6 +129,9 @@ const FighterDetailPage = () => {
           <div className="bg-gray-700 p-3 rounded-lg shadow-md w-full sm:w-1/2 m-2">
             <p className="text-white">UFC Record: {fighter.record}</p>
           </div>
+          <div className="bg-gray-700 p-3 rounded-lg shadow-md w-full sm:w-1/2 m-2">
+            <p className="text-white">Status: {fighter.status}</p>
+          </div>
         </div>
       </div>
 

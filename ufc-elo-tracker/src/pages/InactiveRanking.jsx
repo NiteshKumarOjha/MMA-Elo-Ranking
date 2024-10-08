@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const LandingPage = () => {
+const InactivePage = () => {
   const [topFighters, setTopFighters] = useState([]);
   const [error, setError] = useState(""); // To track error states
 
   useEffect(() => {
     // Fetch sorted fighters from the backend
     axios
-      .get("http://localhost:5000/api/fighters/active/sortedByOverallElo") // Explicit URL to avoid confusion
+      .get("http://localhost:5000/api/fighters/inactive/sortedByOverallElo") // Explicit URL to avoid confusion
       .then((response) => {
         if (response.data && Array.isArray(response.data)) {
           setTopFighters(response.data); // Set the response data into state
@@ -91,4 +91,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default InactivePage;

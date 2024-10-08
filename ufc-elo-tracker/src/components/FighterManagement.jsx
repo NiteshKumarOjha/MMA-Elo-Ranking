@@ -9,9 +9,9 @@ const FighterManagement = () => {
   const [record, setRecord] = useState("");
   const [profileImage, setProfileImage] = useState("");
   const [biography, setBiography] = useState("");
+  const [status, setStatus] = useState("Active"); // Default status
   const [editingFighterId, setEditingFighterId] = useState(null);
 
-  // Define fetchFighters function here
   const fetchFighters = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/fighters");
@@ -27,18 +27,24 @@ const FighterManagement = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const fighterData = { name, age, flag, record, profileImage, biography };
+    const fighterData = {
+      name,
+      age,
+      flag,
+      record,
+      profileImage,
+      biography,
+      status,
+    };
 
     try {
       if (editingFighterId) {
-        // Update existing fighter
         await axios.put(
           `http://localhost:5000/api/fighters/${editingFighterId}`,
           fighterData
         );
         alert("Fighter updated successfully!");
       } else {
-        // Add new fighter
         await axios.post("http://localhost:5000/api/fighters", fighterData);
         alert("Fighter added successfully!");
       }
@@ -57,6 +63,7 @@ const FighterManagement = () => {
     setRecord("");
     setProfileImage("");
     setBiography("");
+    setStatus("Active"); // Reset status to default
     setEditingFighterId(null);
   };
 
@@ -67,6 +74,7 @@ const FighterManagement = () => {
     setRecord(fighter.record);
     setProfileImage(fighter.profileImage);
     setBiography(fighter.biography);
+    setStatus(fighter.status); // Set the status for editing
     setEditingFighterId(fighter._id);
   };
 
@@ -144,6 +152,19 @@ const FighterManagement = () => {
               className="w-full text-black p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
+          <div className="mb-4">
+            <label className="block text-white font-semibold mb-2">
+              Status:
+            </label>
+            <select
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              className="w-full text-black p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+            >
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
           <button
             type="submit"
             className="w-full bg-orange-500 text-white font-semibold py-2 rounded-lg hover:bg-orange-400 transition duration-300"
@@ -160,7 +181,10 @@ const FighterManagement = () => {
               key={fighter._id}
               className="flex justify-between items-center bg-gray-700 p-2 rounded mb-2"
             >
-              <span className="text-white">{fighter.name}</span>
+              <span className="text-white">
+                {fighter.name} - {fighter.status}
+              </span>{" "}
+              {/* Display status */}
               <button
                 onClick={() => handleEdit(fighter)}
                 className="bg-orange-500 text-white px-2 py-1 rounded hover:bg-orange-400"

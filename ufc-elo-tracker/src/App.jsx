@@ -10,6 +10,9 @@ import AdminDashboard from "./components/AdminDashboard";
 import MatchManagement from "./components/MatchManagement";
 import FighterManagement from "./components/FighterManagement";
 import CompareFightersPage from "./pages/CompareFightersPage";
+import TopFightersByEloSum from "./pages/Last5";
+import InactivePage from "./pages/InactiveRanking";
+import AllRanks from "./pages/AllRanking";
 
 function App() {
   // Access the environment variable using import.meta.env
@@ -20,9 +23,12 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/inactive" element={<InactivePage />} />
+        <Route path="/allfighters" element={<AllRanks />} />
         <Route path="/database" element={<FighterPage />} />
         <Route path="/compare" element={<CompareFightersPage />} />
         <Route path="/database/:fighterId" element={<FighterDetailsPage />} />
+        <Route path="/lastfive" element={<TopFightersByEloSum />} />
         <Route path={`/${adminSafe}`} element={<AdminDashboard />}>
           <Route path="matches" element={<MatchManagement />} />
           <Route path="fighters" element={<FighterManagement />} />

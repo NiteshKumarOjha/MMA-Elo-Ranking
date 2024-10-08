@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const LandingPage = () => {
+const TopFightersByEloSum = () => {
   const [topFighters, setTopFighters] = useState([]);
   const [error, setError] = useState(""); // To track error states
 
   useEffect(() => {
-    // Fetch sorted fighters from the backend
+    // Fetch sorted fighters by last 5 ELO per match sum from the backend
     axios
-      .get("http://localhost:5000/api/fighters/active/sortedByOverallElo") // Explicit URL to avoid confusion
+      .get("http://localhost:5000/api/fighters/active/sortedByEloPerMatch") // Use the new endpoint
       .then((response) => {
         if (response.data && Array.isArray(response.data)) {
           setTopFighters(response.data); // Set the response data into state
@@ -24,12 +24,12 @@ const LandingPage = () => {
   return (
     <div className="bg-gray-900 min-h-screen flex flex-col ">
       <main className="flex-grow mt-6 mb-12">
-        <h2 className="text-3xl font-semibold text-center mt-4 mb-8 text-white">
-          Top Active Fighters (Ranked by ELO)
+        <h2 className="text-xl md:text-3xl font-semibold text-center mt-4 mb-8 text-white">
+          Top Active Fighters (Based on Last 5 Match ELO Points)
         </h2>
         {error && <p className="text-red-500 text-center">{error}</p>}
         <div className="overflow-x-auto mt-6 px-4 ">
-          <table className="min-w-full border border-collapsemt-6 bg-gray-800 text-white">
+          <table className="min-w-full border border-collapse mt-6 bg-gray-800 text-white">
             <thead className="bg-gray-700">
               <tr>
                 <th className="border px-4 py-2 text-center text-xl font-semibold">
@@ -42,7 +42,7 @@ const LandingPage = () => {
                   Country
                 </th>
                 <th className="border px-4 py-2 text-center text-xl font-semibold">
-                  Rating
+                  ELO Sum
                 </th>
                 <th className="border px-4 py-2 text-center text-xl font-semibold">
                   Age
@@ -66,7 +66,7 @@ const LandingPage = () => {
                       {fighter.flag}
                     </td>
                     <td className="border px-4 py-2 text-center">
-                      {fighter.eloRating}
+                      {fighter.eloSum} {/* Display ELO sum */}
                     </td>
                     <td className="border px-4 py-2 text-center">
                       {fighter.age}
@@ -91,4 +91,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default TopFightersByEloSum;

@@ -47,6 +47,15 @@ const fighterSchema = new mongoose.Schema({
     type: [Number], // Array of numbers to store ELO ratings
     default: [2000], // Start with base ELO rating
   },
+  eloPerMatch: {
+    type: [Number], // Array of numbers to store ELO ratings
+    default: [],
+  },
+  status: {
+    type: String,
+    enum: ["Active", "Inactive"], // Restrict values to 'Active' or 'Inactive'
+    default: "Active", // Set default status
+  },
 });
 
 module.exports = mongoose.model("Fighter", fighterSchema);

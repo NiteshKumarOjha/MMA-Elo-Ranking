@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const LandingPage = () => {
+const AllRanks = () => {
   const [topFighters, setTopFighters] = useState([]);
   const [error, setError] = useState(""); // To track error states
 
   useEffect(() => {
     // Fetch sorted fighters from the backend
     axios
-      .get("http://localhost:5000/api/fighters/active/sortedByOverallElo") // Explicit URL to avoid confusion
+      .get("http://localhost:5000/api/fighters/all/sortedByOverallElo") // Explicit URL to avoid confusion
       .then((response) => {
         if (response.data && Array.isArray(response.data)) {
           setTopFighters(response.data); // Set the response data into state
@@ -25,11 +25,11 @@ const LandingPage = () => {
     <div className="bg-gray-900 min-h-screen flex flex-col ">
       <main className="flex-grow mt-6 mb-12">
         <h2 className="text-3xl font-semibold text-center mt-4 mb-8 text-white">
-          Top Active Fighters (Ranked by ELO)
+          Top Fighters Of All Time
         </h2>
         {error && <p className="text-red-500 text-center">{error}</p>}
-        <div className="overflow-x-auto mt-6 px-4 ">
-          <table className="min-w-full border border-collapsemt-6 bg-gray-800 text-white">
+        <div className="overflow-x-auto mt-6 px-4">
+          <table className="min-w-full border border-collapse mt-6 bg-gray-800 text-white">
             <thead className="bg-gray-700">
               <tr>
                 <th className="border px-4 py-2 text-center text-xl font-semibold">
@@ -49,6 +49,9 @@ const LandingPage = () => {
                 </th>
                 <th className="border px-4 py-2 text-center text-xl font-semibold">
                   UFC Record
+                </th>
+                <th className="border px-4 py-2 text-center text-xl font-semibold">
+                  Status
                 </th>
               </tr>
             </thead>
@@ -74,11 +77,14 @@ const LandingPage = () => {
                     <td className="border px-4 py-2 text-center">
                       {fighter.record}
                     </td>
+                    <td className="border px-4 py-2 text-center">
+                      {fighter.status} {/* New column for status */}
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6" className="border px-4 py-2 text-center">
+                  <td colSpan="7" className="border px-4 py-2 text-center">
                     No fighters available to display.
                   </td>
                 </tr>
@@ -91,4 +97,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default AllRanks;
