@@ -87,6 +87,28 @@ router.get("/active/sortedByEloPerMatchFirst", async (req, res) => {
   }
 });
 
+router.get("/all/sortedByAverageEloPerMatch", async (req, res) => {
+  try {
+    const fighters = await Fighter.find({}); // Fetch all fighters
+
+    // Map fighters to include the average ELO per match
+    const fightersWithAvgElo = fighters.map((fighter) => {
+      const totalElo = fighter.eloPerMatch.reduce((acc, elo) => acc + elo, 0); // Sum of all ELO ratings
+      const matchCount = fighter.eloPerMatch.length || 1; // Avoid division by zero
+      const avgEloPerMatch = totalElo / matchCount; // Calculate average
+      return { ...fighter.toObject(), avgEloPerMatch }; // Add avgEloPerMatch to the fighter object
+    });
+
+    // Sort fighters by their average ELO per match in descending order
+    fightersWithAvgElo.sort((a, b) => b.avgEloPerMatch - a.avgEloPerMatch);
+
+    res.json(fightersWithAvgElo); // Send sorted fighters
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching fighters by average ELO" });
+  }
+});
+
 router.get("/alphabetical", async (req, res) => {
   try {
     // Fetch all fighters and sort them by eloRating in descending order

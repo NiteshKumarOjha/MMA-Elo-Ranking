@@ -101,6 +101,15 @@ const Navbar = () => {
             </li>
             <li>
               <Link
+                to="/rankings"
+                onClick={toggleMenu}
+                className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
+              >
+                Rankings
+              </Link>
+            </li>
+            <li>
+              <Link
                 to="/allfighters"
                 onClick={toggleMenu}
                 className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
@@ -170,13 +179,21 @@ const Navbar = () => {
 
       {/* Desktop Navigation */}
       <div className="hidden md:block bg-gray-800">
-        <ul className="flex text-lg justify-center space-x-12 p-4 border-t border-gray-700 animate-fade-in">
+        <ul className="flex text-[1.2rem] justify-center space-x-14 p-4 border-t border-gray-700 animate-fade-in">
           <li>
             <Link
               to="/"
               className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
             >
               Live Ratings
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/rankings"
+              className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
+            >
+              Rankings
             </Link>
           </li>
 
