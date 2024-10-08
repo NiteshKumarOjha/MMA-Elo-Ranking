@@ -20,6 +20,9 @@ app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
+const recalculateElo = require("./routes/reCalculateElo");
+app.use("/api", recalculateElo);
+
 // Define API routes (we'll create these later)
 const fighterRoutes = require("./routes/fighterRoutes");
 app.use("/api/fighters", fighterRoutes);

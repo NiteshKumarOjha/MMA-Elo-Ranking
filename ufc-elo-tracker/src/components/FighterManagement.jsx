@@ -12,6 +12,9 @@ const FighterManagement = () => {
   const [status, setStatus] = useState("Active"); // Default status
   const [editingFighterId, setEditingFighterId] = useState(null);
 
+  // New state for search query
+  const [searchQuery, setSearchQuery] = useState("");
+
   const fetchFighters = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/fighters");
@@ -77,6 +80,11 @@ const FighterManagement = () => {
     setStatus(fighter.status); // Set the status for editing
     setEditingFighterId(fighter._id);
   };
+
+  // Filtered fighters based on the search query
+  const filteredFighters = fighters.filter((fighter) =>
+    fighter.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-900 p-6">
@@ -172,19 +180,35 @@ const FighterManagement = () => {
             {editingFighterId ? "Update Fighter" : "Add Fighter"}
           </button>
         </form>
+
+        {/* Search Bar */}
+        <div className="mt-8">
+          <label className="block text-white font-semibold mb-2">
+            Search Fighter:
+          </label>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Enter fighter name"
+            className="w-full text-black p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+          />
+        </div>
+
         <h3 className="text-lg font-bold mt-8 text-center text-orange-500">
           Fighter List
         </h3>
-        <ul className="mt-4">
-          {fighters.map((fighter) => (
+        <ul className="mt-4 max-h-80 overflow-y-auto">
+          {" "}
+          {/* Limit height to make it scrollable */}
+          {filteredFighters.map((fighter) => (
             <li
               key={fighter._id}
               className="flex justify-between items-center bg-gray-700 p-2 rounded mb-2"
             >
               <span className="text-white">
                 {fighter.name} - {fighter.status}
-              </span>{" "}
-              {/* Display status */}
+              </span>
               <button
                 onClick={() => handleEdit(fighter)}
                 className="bg-orange-500 text-white px-2 py-1 rounded hover:bg-orange-400"
@@ -193,6 +217,9 @@ const FighterManagement = () => {
               </button>
             </li>
           ))}
+          {filteredFighters.length === 0 && (
+            <p className="text-white text-center mt-4">No fighters found.</p>
+          )}
         </ul>
       </div>
     </div>
