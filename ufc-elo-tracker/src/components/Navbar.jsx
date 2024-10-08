@@ -101,7 +101,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                to="/all-fighters"
+                to="/allfighters"
                 onClick={toggleMenu}
                 className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
               >
@@ -110,11 +110,20 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                to="/last-five-match"
+                to="/lastfive"
                 onClick={toggleMenu}
                 className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
               >
                 Last 5 Match
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/firstfive"
+                onClick={toggleMenu}
+                className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
+              >
+                First 5 Match
               </Link>
             </li>
             <li>
@@ -148,7 +157,7 @@ const Navbar = () => {
 
             <li>
               <Link
-                to="/compare-fighters"
+                to="/compare"
                 onClick={toggleMenu}
                 className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
               >
@@ -161,7 +170,7 @@ const Navbar = () => {
 
       {/* Desktop Navigation */}
       <div className="hidden md:block bg-gray-800">
-        <ul className="flex justify-center space-x-8 p-4 border-t border-gray-700 animate-fade-in">
+        <ul className="flex text-lg justify-center space-x-12 p-4 border-t border-gray-700 animate-fade-in">
           <li>
             <Link
               to="/"
@@ -185,6 +194,14 @@ const Navbar = () => {
               className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
             >
               Last 5 Match
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/firstfive"
+              className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
+            >
+              First 5 Match
             </Link>
           </li>
           <li>

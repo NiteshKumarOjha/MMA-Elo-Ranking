@@ -8,10 +8,10 @@ const MatchManagement = () => {
   const [kd, setKd] = useState(0);
   const [sig, setSig] = useState(0); // New significant strikes field
   const [takedowns, setTakedowns] = useState(0);
-  const [takedownDefended, setTakedownDefended] = useState(0);
   const [subAttempts, setSubAttempts] = useState(0);
   const [knockoutSub, setKnockoutSub] = useState(0); // Default to no
   const [ksubloss, setKsubloss] = useState(0); // Default to no
+  const [firstRoundFinish, setFirstRoundFinish] = useState(0); // Default to no
   const [fighters, setFighters] = useState([]); // Array to hold fighter names
   const [suggestions, setSuggestions] = useState([]); // Array for name suggestions
 
@@ -58,10 +58,11 @@ const MatchManagement = () => {
       kd,
       sig, // Include the significant strikes field
       takedowns,
-      takedownDefended,
+
       subAttempts,
       knockoutSub,
       ksubloss,
+      firstRoundFinish, // Include the first round finish field
     };
 
     console.log(matchDetails);
@@ -80,10 +81,11 @@ const MatchManagement = () => {
       setKd(0);
       setSig(0); // Reset significant strikes
       setTakedowns(0);
-      setTakedownDefended(0);
+
       setSubAttempts(0);
       setKnockoutSub(0);
       setKsubloss(0);
+      setFirstRoundFinish(0); // Reset first round finish
       setSuggestions([]); // Clear suggestions after submission
     } catch (error) {
       console.error(error);
@@ -185,18 +187,7 @@ const MatchManagement = () => {
                 className="w-full text-black p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
             </div>
-            <div>
-              <label className="block text-white font-semibold mb-2">
-                Takedown Defended:
-              </label>
-              <input
-                type="number"
-                value={takedownDefended}
-                onChange={(e) => setTakedownDefended(Number(e.target.value))}
-                required
-                className="w-full text-black p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-              />
-            </div>
+
             <div>
               <label className="block text-white font-semibold mb-2">
                 Submission Attempts:
@@ -209,27 +200,40 @@ const MatchManagement = () => {
                 className="w-full text-black p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
             </div>
+            <div>
+              <label className="block text-white font-semibold mb-2">
+                Knockout or Submission:
+              </label>
+              <select
+                value={knockoutSub}
+                onChange={(e) => setKnockoutSub(Number(e.target.value))}
+                className="w-full text-black p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+              >
+                <option value={0}>No</option>
+                <option value={1}>Yes</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-white font-semibold mb-2">
+                Knockout or Submission Loss:
+              </label>
+              <select
+                value={ksubloss}
+                onChange={(e) => setKsubloss(Number(e.target.value))}
+                className="w-full text-black p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+              >
+                <option value={0}>No</option>
+                <option value={1}>Yes</option>
+              </select>
+            </div>
           </div>
           <div className="mb-4">
             <label className="block text-white font-semibold mb-2">
-              Knockout/Sub:
+              First Round Finish:
             </label>
             <select
-              value={knockoutSub}
-              onChange={(e) => setKnockoutSub(Number(e.target.value))}
-              className="w-full text-black p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-            >
-              <option value={1}>Yes</option>
-              <option value={0}>No</option>
-            </select>
-          </div>
-          <div className="mb-4">
-            <label className="block text-white font-semibold mb-2">
-              Knockout/Sub Loss:
-            </label>
-            <select
-              value={ksubloss}
-              onChange={(e) => setKsubloss(Number(e.target.value))}
+              value={firstRoundFinish}
+              onChange={(e) => setFirstRoundFinish(Number(e.target.value))}
               className="w-full text-black p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value={1}>Yes</option>
@@ -238,7 +242,7 @@ const MatchManagement = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-orange-500 text-white font-semibold py-2 rounded-lg hover:bg-orange-400 transition duration-300"
+            className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition duration-300 w-full"
           >
             Add Match
           </button>

@@ -67,6 +67,26 @@ router.get("/active/sortedByEloPerMatch", async (req, res) => {
   }
 });
 
+router.get("/active/sortedByEloPerMatchFirst", async (req, res) => {
+  try {
+    const fighters = await Fighter.find({});
+
+    const fightersWithEloSum = fighters.map((fighter) => {
+      const lastFiveEloPerMatch = fighter.eloPerMatch.slice(0, 5);
+      const eloSum = lastFiveEloPerMatch.reduce((acc, elo) => acc + elo, 0); // Sum the ELOs
+      return { ...fighter.toObject(), eloSum }; // Return fighter data along with the sum
+    });
+
+    // Sort fighters based on eloSum in descending order
+    fightersWithEloSum.sort((a, b) => b.eloSum - a.eloSum);
+
+    res.json(fightersWithEloSum);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to fetch fighters" });
+  }
+});
+
 router.get("/alphabetical", async (req, res) => {
   try {
     // Fetch all fighters and sort them by eloRating in descending order

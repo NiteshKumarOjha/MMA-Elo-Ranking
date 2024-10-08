@@ -28,10 +28,6 @@ const matchSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    takedownDefended: {
-      type: Number,
-      required: true,
-    },
     subAttempts: {
       type: Number,
       required: true,
@@ -41,6 +37,10 @@ const matchSchema = new mongoose.Schema(
       required: true, // 1 means yes 0 means no
     },
     ksubloss: {
+      type: Number,
+      required: true, // 1 means yes 0 means no
+    },
+    firstRoundFinish: {
       type: Number,
       required: true, // 1 means yes 0 means no
     },
