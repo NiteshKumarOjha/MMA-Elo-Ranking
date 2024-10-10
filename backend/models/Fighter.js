@@ -56,6 +56,22 @@ const fighterSchema = new mongoose.Schema({
     enum: ["Active", "Inactive"], // Restrict values to 'Active' or 'Inactive'
     default: "Active", // Set default status
   },
+  numTitleMatches: {
+    type: Number,
+    default: 0,
+  },
+  numTitleWins: {
+    type: Number,
+    default: 0,
+  },
+  numTitleLosses: {
+    type: Number,
+    default: 0,
+  },
+  numTitleDraws: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = mongoose.model("Fighter", fighterSchema);

@@ -120,6 +120,28 @@ router.get("/alphabetical", async (req, res) => {
   }
 });
 
+// Sort fighters by total title fights
+router.get("/sortedByTitleFights", async (req, res) => {
+  try {
+    const fighters = await Fighter.find({}).sort({ numTitleMatches: -1 });
+    res.status(200).json(fighters);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error sorting fighters by title fights" });
+  }
+});
+
+// Sort fighters by most title wins
+router.get("/sortedByTitleWins", async (req, res) => {
+  try {
+    const fighters = await Fighter.find({}).sort({ numTitleWins: -1 });
+    res.status(200).json(fighters);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error sorting fighters by title wins" });
+  }
+});
+
 router.get("/:fighterId", async (req, res) => {
   try {
     const fighterId = req.params.fighterId;

@@ -1,63 +1,56 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi"; // Importing hamburger icons
+import { MdKeyboardArrowDown } from "react-icons/md"; // Dropdown icon
 
-const colorPairs = [
-  { bg: "#111", text: "#ffffff" },
-  // { bg: "#003366", text: "#ffffff" },
-  // { bg: "#660000", text: "#ffffff" },
-  // { bg: "#4d4d00", text: "#ffffff" },
-  // { bg: "#4d004d", text: "#ffffff" },
-  // { bg: "#ffcc00", text: "#000000" },
-  // { bg: "#cc3300", text: "#ffffff" },
-  // { bg: "#006600", text: "#ffffff" },
-  // { bg: "#006699", text: "#ffffff" },
-  // { bg: "#ff9900", text: "#000000" },
-  // { bg: "#666666", text: "#ffffff" },
-  // { bg: "#c2c2f0", text: "#000000" },
-  // { bg: "#ff3399", text: "#000000" },
-  // { bg: "#3399ff", text: "#000000" },
-  // { bg: "#cc0000", text: "#ffffff" },
-  // { bg: "#ffcc99", text: "#000000" },
-  // { bg: "#006600", text: "#ffffff" },
-  // { bg: "#990033", text: "#ffffff" },
-  // { bg: "#b3b3b3", text: "#000000" },
-  // { bg: "#ffccff", text: "#000000" },
-  // { bg: "#336600", text: "#ffffff" },
-  // { bg: "#660066", text: "#ffffff" },
-  // { bg: "#003300", text: "#ffffff" },
-  // { bg: "#800000", text: "#ffffff" },
-  // { bg: "#b3e6b3", text: "#000000" },
-  // { bg: "#cccc00", text: "#000000" },
-  // { bg: "#800080", text: "#ffffff" },
-];
+const colorPairs = [{ bg: "#111", text: "#ffffff" }];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [textColor, setTextColor] = useState("white");
   const [bgColor, setBgColor] = useState("#111");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * colorPairs.length);
     const { text, bg } = colorPairs[randomIndex];
-
     setTextColor(text);
     setBgColor(bg);
 
     const intervalId = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * colorPairs.length);
       const { text, bg } = colorPairs[randomIndex];
-
       setTextColor(text);
       setBgColor(bg);
-    }, 10000); // Change colors every 10 seconds
+    }, 10000);
 
-    return () => clearInterval(intervalId); // Clear interval on component unmount
-  }, []); // Empty dependency array to run only once on mount
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const navLinks = [
+    { to: "/", label: "Live Ratings" },
+    { to: "/rankings", label: "Rankings" },
+    { to: "/lastfive", label: "Last 5 Match" },
+    { to: "/title", label: "Title Fights" },
+    { to: "/women", label: "Women" },
+    { to: "/database", label: "Database" },
+    { to: "/compare", label: "Compare Fighters" },
+  ];
+
+  const dropdownLinks = [
+    { to: "/allfighters", label: "All Fighters" },
+    { to: "/firstfive", label: "First 5 Match" },
+    { to: "/inactive", label: "Inactive" },
+  ];
 
   return (
     <nav
@@ -65,7 +58,7 @@ const Navbar = () => {
         backgroundColor: bgColor,
         color: textColor,
         transition: "background-color 0.5s, color 0.5s",
-      }} // Smooth transition for colors
+      }}
       className="shadow-lg"
     >
       {/* Header */}
@@ -90,169 +83,86 @@ const Navbar = () => {
         {/* Menu Items */}
         {isOpen && (
           <ul className="flex flex-col items-center space-y-4 p-4 border-t border-gray-700 animate-slide-down">
-            <li>
-              <Link
-                to="/"
-                onClick={toggleMenu}
-                className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
-              >
-                Live Ratings
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/rankings"
-                onClick={toggleMenu}
-                className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
-              >
-                Rankings
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/allfighters"
-                onClick={toggleMenu}
-                className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
-              >
-                All Fighters
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/lastfive"
-                onClick={toggleMenu}
-                className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
-              >
-                Last 5 Match
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/firstfive"
-                onClick={toggleMenu}
-                className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
-              >
-                First 5 Match
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/inactive"
-                onClick={toggleMenu}
-                className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
-              >
-                Inactive
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                to="/women"
-                onClick={toggleMenu}
-                className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
-              >
-                Women
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/database"
-                onClick={toggleMenu}
-                className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
-              >
-                Database
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                to="/compare"
-                onClick={toggleMenu}
-                className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
-              >
-                Compare Fighters
-              </Link>
-            </li>
+            {navLinks.map((link) => (
+              <li key={link.to}>
+                <Link
+                  to={link.to}
+                  onClick={toggleMenu}
+                  className={`text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105 ${
+                    location.pathname === link.to
+                      ? "text-orange-500 font-bold"
+                      : ""
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+            {/* Dropdown Links in Mobile View */}
+            {dropdownLinks.map((link) => (
+              <li key={link.to}>
+                <Link
+                  to={link.to}
+                  onClick={toggleMenu}
+                  className={`text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105 ${
+                    location.pathname === link.to
+                      ? "text-orange-500 font-bold"
+                      : ""
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         )}
       </div>
 
       {/* Desktop Navigation */}
       <div className="hidden md:block bg-gray-800">
-        <ul className="flex text-[1.2rem] justify-center space-x-14 p-4 border-t border-gray-700 animate-fade-in">
-          <li>
-            <Link
-              to="/"
-              className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
+        <ul className="flex text-[1.2rem] justify-center space-x-10 p-4 border-t border-gray-700">
+          {navLinks.map((link) => (
+            <li key={link.to}>
+              <Link
+                to={link.to}
+                className={`text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105 ${
+                  location.pathname === link.to
+                    ? "text-orange-500 font-bold"
+                    : ""
+                }`}
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+          {/* Dropdown Example */}
+          <li className="relative">
+            <button
+              onClick={toggleDropdown}
+              className="flex items-center text-gray-300 hover:text-orange-500 transition duration-300"
             >
-              Live Ratings
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/rankings"
-              className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              Rankings
-            </Link>
-          </li>
-
-          <li>
-            <Link
-              to="/allfighters"
-              className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              All Fighters
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/lastfive"
-              className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              Last 5 Match
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/firstfive"
-              className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              First 5 Match
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/inactive"
-              className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              Inactive
-            </Link>
-          </li>
-
-          <li>
-            <Link
-              to="/women"
-              className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              Women
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/database"
-              className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              Database
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/compare"
-              className="text-gray-300 hover:text-orange-500 transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              Compare Fighters
-            </Link>
+              More{" "}
+              <MdKeyboardArrowDown
+                className={`ml-1 ${dropdownOpen ? "transform rotate-180" : ""}`}
+              />
+            </button>
+            {dropdownOpen && (
+              <ul
+                className="absolute left-0 mt-2 bg-gray-700 rounded-md shadow-lg"
+                style={{ width: "200px" }} // Make dropdown wider
+              >
+                {dropdownLinks.map((link) => (
+                  <li key={link.to}>
+                    <Link
+                      to={link.to}
+                      className="block px-4 py-2 text-gray-300 hover:text-orange-500"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </li>
         </ul>
       </div>

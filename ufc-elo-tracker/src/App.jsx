@@ -15,6 +15,7 @@ import InactivePage from "./pages/InactiveRanking";
 import AllRanks from "./pages/AllRanking";
 import TopFightersByEloSumFirst from "./pages/FirstFive";
 import AvgEloRanks from "./pages/AvgElo";
+import TitleFightStats from "./pages/TitleFights";
 
 function App() {
   // Access the environment variable using import.meta.env
@@ -29,6 +30,7 @@ function App() {
         <Route path="/allfighters" element={<AllRanks />} />
         <Route path="/rankings" element={<AvgEloRanks />} />
         <Route path="/database" element={<FighterPage />} />
+        <Route path="/title" element={<TitleFightStats />} />
         <Route path="/compare" element={<CompareFightersPage />} />
         <Route path="/database/:fighterId" element={<FighterDetailsPage />} />
         <Route path="/lastfive" element={<TopFightersByEloSum />} />
