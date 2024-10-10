@@ -1,9 +1,8 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
-import axios from "axios"; // Import axios for API calls
+import axios from "axios";
 
 const AdminDashboard = () => {
-  // Function to trigger the recalculation of ELO for all fighters
   const handleRecalculateELO = async () => {
     try {
       const response = await axios.post(
@@ -51,11 +50,18 @@ const AdminDashboard = () => {
               Recalculate ELO
             </button>
           </li>
+          <li>
+            <Link
+              to="edit-matches"
+              className="block px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-600 transition duration-300 shadow-md text-center"
+            >
+              Edit Matches
+            </Link>
+          </li>
         </ul>
       </nav>
-
       <main className="flex-1 p-6">
-        <Outlet /> {/* This will render the child routes */}
+        <Outlet />
       </main>
     </div>
   );

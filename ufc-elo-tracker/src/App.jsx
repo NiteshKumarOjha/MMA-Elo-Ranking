@@ -16,6 +16,7 @@ import AllRanks from "./pages/AllRanking";
 import TopFightersByEloSumFirst from "./pages/FirstFive";
 import AvgEloRanks from "./pages/AvgElo";
 import TitleFightStats from "./pages/TitleFights";
+import EditMatches from "./components/EditMatch";
 
 function App() {
   // Access the environment variable using import.meta.env
@@ -38,6 +39,7 @@ function App() {
         <Route path={`/${adminSafe}`} element={<AdminDashboard />}>
           <Route path="matches" element={<MatchManagement />} />
           <Route path="fighters" element={<FighterManagement />} />
+          <Route path="edit-matches" element={<EditMatches />} />
         </Route>
       </Routes>
       <Footer />

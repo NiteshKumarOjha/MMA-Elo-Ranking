@@ -23,15 +23,15 @@ app.get("/", (req, res) => {
 const recalculateElo = require("./routes/reCalculateElo");
 app.use("/api", recalculateElo);
 
-// Define API routes (we'll create these later)
+// Define API routes
 const fighterRoutes = require("./routes/fighterRoutes");
 app.use("/api/fighters", fighterRoutes);
 
 const adminRoutes = require("./routes/admin");
 app.use("/api/admin", adminRoutes);
 
-// const matchRoutes = require("./routes/matchRoutes");
-// app.use("/api/matches", matchRoutes);
+const matchRoutes = require("./routes/matchRoutes"); // Uncomment this line
+app.use("/api/matches", matchRoutes); // Ensure this route is active
 
 // Set up the server to listen on a specific port
 const PORT = process.env.PORT || 5000;
